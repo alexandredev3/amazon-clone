@@ -72,6 +72,15 @@ export const HeaderSpanLineOne = styled.span`
 export const HeaderSpanLineTwo = styled.span`
   font-size: 13px;
   font-weight: 800;
+  > a {
+    &:hover {
+      opacity: .9;
+    }
+
+    transition: opacity 200ms;
+    color: #fff;
+    text-decoration: none;
+  }
 `;
 
 export const HeaderOptionBasket = styled.div`

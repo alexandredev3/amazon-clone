@@ -1,7 +1,7 @@
 interface RCF {
   renderText: (value) => void;
   decimalScale: number;
-  velue: any;
+  value: any;
   displayType: string;
   thousandSeparator: boolean;
   prefix: string;

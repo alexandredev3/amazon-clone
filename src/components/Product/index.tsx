@@ -19,9 +19,7 @@ interface Props {
 }
 
 const Product: React.FC<Props> = ({ id, title, image, price, rating }) => {
-  const { products, dispatch } = useStateValue();
-
-  console.log(products);
+  const { dispatch } = useStateValue();
 
   if (rating > 5) {
     rating = 5
@@ -57,7 +55,13 @@ const Product: React.FC<Props> = ({ id, title, image, price, rating }) => {
           {Array(rating)
             .fill(rating)
             .map((_, i) => (
-              <p>🌟️</p>
+              <span 
+                aria-label="jsx-a11y/accessible-emoji"
+                role="img"
+                key={i}
+              >
+                🌟️
+              </span>
             ))
           }
         </ProductRating>

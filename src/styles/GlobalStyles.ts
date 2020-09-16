@@ -7,10 +7,16 @@ export default createGlobalStyle`
     box-sizing: border-box;
 
     outline: 0;
+
+    font-family: 'Arial', sans-serif;
   }
 
   input, button {
     border: none;
+  }
+
+  button {
+    cursor: pointer;
   }
 
   body {

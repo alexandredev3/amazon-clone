@@ -6,6 +6,7 @@ import React, {
 
 interface Reducer {
   basket: string[];
+  count: number;
 }
 
 interface Props {
@@ -13,31 +14,32 @@ interface Props {
   initialState: Reducer;
 }
 
+interface Data {
+  id: number;
+  title: string;
+  image: string;
+  price: number;
+  rating: number;
+}
+
+
 interface ItemData {
   type: string;
-  item: {
-    id: number;
-    title: string;
-    image: string;
-    price: number;
-    rating: number;
-  }
+  id?: number;
+  item?: Data;
+  user?: null | { email: string } | { email: null }
 }
 
 interface StateData {
   basket: [
-    {
-      id: number;
-      title: string;
-      image: string;
-      price: number;
-      rating: number;
-    }
+    Data
   ];
+  count: number;
+  user: null | { email: string } | { email: null }
 }
 
 interface ContextData {
-  products: StateData;
+  data: StateData;
   dispatch: React.Dispatch<ItemData>;
 }
 
@@ -48,11 +50,11 @@ const StateContext = createContext<ContextData>({} as ContextData);
 export const StateProvider: React.FC<Props> = ({ reducer, initialState, children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const products = state as StateData;
+  let data = state as StateData;
 
   return (
     <StateContext.Provider
-      value={{ products, dispatch }}
+      value={{ data, dispatch }}
     >
       {children}
     </StateContext.Provider>

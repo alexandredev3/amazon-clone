@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CurrencyFormat from 'react-currency-format';
 
 import { useStateValue } from '../../contexts/StateProvider';
@@ -6,7 +6,28 @@ import { useStateValue } from '../../contexts/StateProvider';
 import { Container, SubtotalGift } from './styles';
 
 const Subtotal: React.FC = () => {
-  const { products } = useStateValue();
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const { data } = useStateValue();
+
+  /**
+   * here we could create a function inside the file "redutores.ts", 
+   * but it will give some typing errors, so I thought it better to do it this way.
+   */
+  useEffect(() => {
+    const { basket } = data;
+
+    const total = basket?.reduce((amount: number, item: { 
+      price: number;
+    }) => item.price + amount, 0);
+    /**
+     * amount e a quatidade inicial.
+     * item e o produto.
+     * o zero no final e o amount que e o valor inicial.
+     */
+
+    setTotalPrice(total);
+  }, [data]);
 
   return (
     <Container>
@@ -14,8 +35,8 @@ const Subtotal: React.FC = () => {
         renderText={(value: string) => (
           <>
             <p>
-              Subtotal ({products.basket.length} items):
-              <strong>0</strong>
+              Subtotal ({data.count} items):
+              <strong> {value}</strong>
             </p>
             <SubtotalGift>
               <input type="checkbox"/>This order contains a gift
@@ -23,7 +44,7 @@ const Subtotal: React.FC = () => {
           </>
         )}
         decimalScale={2}
-        velue={0}
+        value={totalPrice}
         displayType={'text'}
         thousandSeparator={true}
         prefix={'$'}

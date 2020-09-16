@@ -1,15 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import Header from '../components/Header';
-
+import Login from '../pages/Login';
 import Home from '../pages/Home';
 import Checkout from '../pages/Checkout';
 
 function Routes() {
   return (
     <BrowserRouter>
-      <Header />
+      <Route path="/login" exact component={Login} />
       <Route path="/" exact component={Home} />
       <Route path="/checkout" component={Checkout} />
     </BrowserRouter>

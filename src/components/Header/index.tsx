@@ -2,6 +2,7 @@ import React from 'react';
 import { MdSearch, MdShoppingBasket } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { useStateValue } from '../../contexts/StateProvider';
+import { auth } from '../../services/firebase';
 
 import { 
   Container,
@@ -17,7 +18,15 @@ import {
 } from './styles';
 
 const Header: React.FC = () => {
-  const { products } = useStateValue();
+  const { data } = useStateValue();
+
+  const email = data.user?.email;
+
+  async function handleAuthentication() {
+    if (data.user) {
+      await auth.signOut();
+    }
+  }
 
   return (
     <Container>
@@ -45,12 +54,15 @@ const Header: React.FC = () => {
         <HeaderOption>
           
           <HeaderSpanLineOne>
-            Hello Guest
+            {email ? `Hello ${email}` : 'Hello Guests'}
           </HeaderSpanLineOne>
           
-          <HeaderSpanLineTwo>
-            Sign In
-          </HeaderSpanLineTwo>
+            <HeaderSpanLineTwo onClick={handleAuthentication}>
+              {/* So vai redirecionar para a pagina de login, se o usuario não estiver logado */}
+              <Link to={data.user ? "/" : "/login"}>
+                {data.user ? 'Sign Out' : 'Sign In'}
+              </Link>
+            </HeaderSpanLineTwo>
 
         </HeaderOption>
 
@@ -82,7 +94,7 @@ const Header: React.FC = () => {
           <HeaderOptionBasket>
             <MdShoppingBasket color="#FFF" size={28} />
             <HeaderOptionLineTwoBasketCount>
-              {products.basket?.length}
+              {data.count}
             </HeaderOptionLineTwoBasketCount>
 
           </HeaderOptionBasket>
